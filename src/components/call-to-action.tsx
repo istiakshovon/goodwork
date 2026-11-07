@@ -1,12 +1,27 @@
+'use client';
 import Link from "next/link";
 import { ArrowRight, Sparkles } from "lucide-react";
 import { buttonStyles } from "@/lib/buttons";
+import { authClient } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
+import { Button } from "./ui/button";
 
 export function CallToAction() {
+  const {data: session } = authClient.useSession()
+  const router = useRouter()
+  
+  const handleCreateEvent = () => {
+    if (session?.user) {
+      router.push('/add-events')
+    } else {
+      router.push('/login')
+    }
+  }
+  
   return (
     <section id="join" className="bg-slate-50 py-16 md:py-20">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-orange-400 via-brand to-brand-dark px-6 py-14 shadow-2xl shadow-orange-500/25 sm:px-10 md:px-16 md:py-20">
+        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-brand via-brand to-brand-dark px-6 py-14 shadow-2xl shadow-brand/30 sm:px-10 md:px-16 md:py-20">
           {/* Decorative circles */}
           <div
             aria-hidden="true"
@@ -25,7 +40,7 @@ export function CallToAction() {
             <h2 className="mt-6 font-heading text-3xl font-extrabold leading-tight tracking-tight text-balance text-white sm:text-4xl md:text-5xl">
               Your neighborhood needs what only you can give.
             </h2>
-            <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-orange-100 sm:text-lg">
+            <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-white/85 sm:text-lg">
               Bring an hour, a skill, or a whole crew. Whatever you have to
               give, there is an event on GoodWork that will put it to work.
             </p>
@@ -37,15 +52,14 @@ export function CallToAction() {
                 Browse open events
                 <ArrowRight className="size-5" aria-hidden="true" />
               </a>
-              <Link
-                href="/add-destination"
+             
+                <Button
                 className={buttonStyles({
                   variant: "ghostOnBrand",
                   size: "lg",
                 })}
-              >
-                Create your first event
-              </Link>
+              
+              onClick={handleCreateEvent}> Create your first event</Button>
             </div>
           </div>
         </div>

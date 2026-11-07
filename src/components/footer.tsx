@@ -43,7 +43,7 @@ export function Footer() {
                 <li key={link.label}>
                   <a
                     href={link.href}
-                    className="transition-colors hover:text-orange-300"
+                    className="transition-colors hover:text-brand-soft"
                   >
                     {link.label}
                   </a>
@@ -61,7 +61,7 @@ export function Footer() {
                 <li key={label}>
                   <a
                     href="#causes"
-                    className="transition-colors hover:text-orange-300"
+                    className="transition-colors hover:text-brand-soft"
                   >
                     {label}
                   </a>

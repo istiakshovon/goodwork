@@ -14,7 +14,7 @@ export function Newsletter() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col items-start gap-8 rounded-2xl border border-slate-100 bg-slate-50 p-8 shadow-sm md:flex-row md:items-center md:justify-between md:p-10">
           <div className="max-w-xl">
-            <span className="flex size-11 items-center justify-center rounded-2xl bg-orange-100 text-brand">
+            <span className="flex size-11 items-center justify-center rounded-2xl bg-brand/10 text-brand">
               <Mail className="size-5" aria-hidden="true" />
             </span>
             <h2 className="mt-4 font-heading text-2xl font-extrabold tracking-tight text-balance text-slate-900 sm:text-3xl">

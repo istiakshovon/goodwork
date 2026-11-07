@@ -1,25 +1,81 @@
-import Image from 'next/image';
-import React from 'react';
+import JoinEvent from '@/components/joinevent/joinevent';
+import { CalendarDays, MapPin, Users } from 'lucide-react';
 
-const EventDetailsPage = async({params}) => {
-    const {id} = await params
+const EventDetailsPage = async ({ params }: PageProps<'/events/[id]'>) => {
+    const { id } = await params;
 
-const res = await fetch(`http://localhost:5000/events/${id}`)
-const data = await res.json()
+    const res = await fetch(`http://localhost:5000/events/${id}`)
+    const data = await res.json()
 
 
     return (
-        <div className='relative'>
-           <div >
-            <img src={data.image} alt={data.name} height={300} width={600} />
-           </div>
-           <div className='absolute bottom-0 left-0 p-4 text-white'>
-             <h1>{data.type}</h1>
-             <div className='flex gap-10'>
-                <p>{data.location}</p>
-              <p>{data.date}</p>
-             </div>
-           </div>
+        <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
+            <div className="relative aspect-[16/9] overflow-hidden rounded-3xl shadow-xl sm:aspect-[16/7]">
+                <img
+                    src={data.image}
+                    alt={data.title ?? data.name}
+                    className="h-full w-full object-cover"
+                />
+                <div
+                    aria-hidden="true"
+                    className="absolute inset-0 bg-gradient-to-t from-navy/80 via-navy/20 to-transparent"
+                />
+                <span className="absolute left-5 top-5 rounded-full bg-white/95 px-3 py-1.5 text-xs font-bold text-slate-800 shadow-sm backdrop-blur">
+                    ( {data.type} )
+                </span>
+                <div className="absolute inset-x-0 bottom-0 flex flex-wrap gap-x-6 gap-y-2 p-5 text-sm font-semibold text-white sm:p-7">
+                    <span className="inline-flex items-center gap-1.5">
+                        <MapPin className="size-4 text-brand-soft" aria-hidden="true" />
+                        {data.location}
+                    </span>
+                    <span className="inline-flex items-center gap-1.5">
+                        <CalendarDays className="size-4 text-brand-soft" aria-hidden="true" />
+                        {data.date}
+                    </span>
+                </div>
+            </div>
+
+            <div className="mt-8 grid gap-8 lg:grid-cols-[1fr_360px]">
+                <div className="rounded-2xl border border-slate-200 bg-white p-7 shadow-sm">
+                    <h1 className="font-heading text-3xl font-extrabold tracking-tight text-balance text-slate-900 sm:text-4xl">
+                        {data.title}
+                    </h1>
+
+                    <div className="mt-5 flex flex-wrap gap-2">
+                        <span className="inline-flex items-center gap-1.5 rounded-full bg-brand/10 px-3 py-1 text-xs font-bold text-brand-dark">
+                            <MapPin className="size-3" aria-hidden="true" />
+                            {data.location}
+                        </span>
+                        <span className="inline-flex items-center gap-1.5 rounded-full bg-brand/10 px-3 py-1 text-xs font-bold text-brand-dark">
+                            <CalendarDays className="size-3" aria-hidden="true" />
+                            {data.date}
+                        </span>
+                        <span className="inline-flex items-center gap-1.5 rounded-full bg-navy px-3 py-1 text-xs font-bold text-white">
+                            <Users className="size-3" aria-hidden="true" />
+                            {data.maxVolunteers ? `${data.maxVolunteers} volunteers needed` : 'Volunteers welcome'}
+                        </span>
+                    </div>
+
+                    <p className="mt-6 text-sm leading-relaxed text-slate-600 sm:text-base">
+                        {data.description}
+                    </p>
+                </div>
+
+                <aside className="h-fit rounded-2xl border border-slate-200 bg-white p-7 shadow-sm">
+                    <p className="text-xs font-bold uppercase tracking-[0.2em] text-brand">
+                        GoodWork
+                    </p>
+                    <h2 className="mt-1 font-heading text-xl font-extrabold text-slate-900">
+                      Join this event
+                    </h2>
+                    <p className="mt-2 text-sm leading-relaxed text-slate-600">
+                      Reserve your spot and the organizer will reach out with the details.
+                    </p>
+                    <div className="mt-5">
+                        <JoinEvent events={data} />
+                    </div>
+                </aside>
+            </div>
         </div>
     );
 };

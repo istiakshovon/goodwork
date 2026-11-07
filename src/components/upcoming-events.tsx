@@ -126,10 +126,19 @@ export function UpcomingEvents() {
                   {event.description}
                 </p>
 
+                <div className="flex items-center gap-2 pt-3">
+                  <span className="rounded-full bg-brand/10 px-2.5 py-1 text-[11px] font-bold text-brand-dark">
+                    ( {event.category} )
+                  </span>
+                  <span className="rounded-full bg-slate-100 px-2.5 py-1 text-[11px] font-semibold text-slate-600">
+                    Ongoing
+                  </span>
+                </div>
+
                 <div className="mt-5 flex items-center justify-between gap-3 border-t border-slate-100 pt-5">
                   <div className="flex items-center gap-2.5">
                     <span
-                      className="flex size-8 items-center justify-center rounded-full bg-gradient-to-br from-brand to-brand-dark text-[10px] font-bold text-white"
+                      className="flex size-8 items-center justify-center rounded-full bg-brand text-[10px] font-bold text-white"
                       aria-hidden="true"
                     >
                       {event.initials}
@@ -138,7 +147,7 @@ export function UpcomingEvents() {
                       {event.organizer}
                     </span>
                   </div>
-                  <span className="inline-flex items-center gap-1 rounded-full bg-orange-50 px-2.5 py-1 text-[11px] font-bold text-orange-600">
+                  <span className="inline-flex items-center gap-1 rounded-full bg-brand/10 px-2.5 py-1 text-[11px] font-bold text-brand-dark">
                     <Users className="size-3" aria-hidden="true" />
                     {event.spotsLeft} spots left
                   </span>
@@ -146,7 +155,7 @@ export function UpcomingEvents() {
 
                 <a
                   href="#join"
-                  className={cn(buttonStyles({ size: "block" }), "mt-4")}
+                  className={cn(buttonStyles({ size: "block", variant: "navy" }), "mt-4")}
                 >
                   <UserPlus className="size-4" aria-hidden="true" />
                   Join Event
@@ -155,6 +164,47 @@ export function UpcomingEvents() {
             </article>
           ))}
         </div>
+
+        {/* Featured event banner */}
+        <article className="group mt-8 overflow-hidden rounded-3xl bg-navy shadow-xl">
+          <div className="grid md:grid-cols-2">
+            <div className="flex flex-col justify-center p-7 sm:p-10">
+              <span className="inline-flex w-fit items-center gap-1.5 rounded-full border border-brand/40 bg-brand/15 px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-brand-soft">
+                ( Featured )
+              </span>
+              <h3 className="mt-4 font-heading text-2xl font-extrabold leading-snug text-balance text-white sm:text-3xl">
+                The Hidden Superheroes: Blood Donation Camp
+              </h3>
+              <p className="mt-3 max-w-md text-sm leading-relaxed text-slate-300">
+                Donate blood, save a life. Walk-in donors, volunteers for
+                registration desks, and helpers for the recovery lounge are all
+                welcome.
+              </p>
+              <div className="mt-6">
+                <a
+                  href="#join"
+                  className={buttonStyles({ variant: "primary", size: "md" })}
+                >
+                  <UserPlus className="size-4" aria-hidden="true" />
+                  Join Event
+                </a>
+              </div>
+            </div>
+            <div className="relative min-h-56">
+              <Image
+                src="https://images.unsplash.com/photo-1615461066841-6116e61058f4?auto=format&fit=crop&w=1200&q=75"
+                alt="Volunteer giving blood at a community donation camp"
+                fill
+                sizes="(max-width: 768px) 100vw, 50vw"
+                className="object-cover transition-transform duration-500 group-hover:scale-105"
+              />
+              <div
+                aria-hidden="true"
+                className="absolute inset-0 bg-gradient-to-r from-navy via-navy/20 to-transparent max-md:bg-gradient-to-t"
+              />
+            </div>
+          </div>
+        </article>
       </div>
     </section>
   );

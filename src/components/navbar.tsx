@@ -2,7 +2,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { useState } from "react";
 import Link from "next/link";
-import { Menu, Plus, X } from "lucide-react";
+import { BadgeCheck, LogOut, Menu, Plus, X } from "lucide-react";
 import { cn } from "cn";
 import { Logo } from "@/components/logo";
 import { buttonStyles } from "@/lib/buttons";
@@ -15,94 +15,116 @@ import {
   PopoverTitle,
   PopoverTrigger,
 } from "@/components/ui/popover"
-import { Button } from "./ui/button";
+import ThemeToggle from "./theme-toggle";
+
 
 const navLinks = [
-  { label: "Causes", href: "/#causes" },
-  { label: "Events", href: "/#events" },
-  { label: "Stories", href: "/#stories" },
-  { label: "Join", href: "/#join" },
+  { label: "Explore Upcoming Events", href: "/events" },
+ 
 ];
 
 export function Navbar() {
 
-const handleSignOut = () => {
-  authClient.signOut();
-}
+  const handleSignOut = () => {
+    authClient.signOut();
+  }
 
   const { data: session } = authClient.useSession()
   const user = session?.user;
-  console.log(user)
 
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-navy/70 backdrop-blur-lg">
+    <header className="fixed inset-x-0 top-0 z-50 border-b border-slate-200/70 bg-white/85 backdrop-blur-lg">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 md:h-[72px] lg:px-8">
-        <Link href="/#top" aria-label="GoodWork home">
-          <Logo />
+        <Link href="/" aria-label="GoodWork home">
+          <Logo variant="on-light" />
         </Link>
 
-        <nav
-          className="hidden items-center gap-8 md:flex"
-          aria-label="Primary navigation"
-        >
+        <nav aria-label="Primary" className="hidden items-center gap-1 lg:flex">
           {navLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className="text-sm font-semibold text-slate-300 transition-colors hover:text-white"
+              className="rounded-full px-4 py-2 text-sm font-semibold text-slate-600 transition-colors hover:bg-brand/10 hover:text-brand-dark"
             >
               {link.label}
             </Link>
           ))}
         </nav>
 
-{
-  user?       <Popover>
-  <PopoverTrigger render={ <Avatar>
-          <AvatarImage src={user?.image as string} />
-          <AvatarFallback>{user?.name.charAt(0)}</AvatarFallback>
-        </Avatar>}>
-    Open Popover
-  </PopoverTrigger>
-  <PopoverContent>
-    <PopoverHeader>
-      <PopoverTitle>Title</PopoverTitle>
-      <PopoverDescription>
-        <Button variant="destructive" onClick={handleSignOut}>
-          Sign Out
-        </Button>
-      </PopoverDescription>
-    </PopoverHeader>
-  </PopoverContent>
-</Popover>: <>
+        {user ? (
+          <div className="hidden items-center gap-3 md:flex">
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-brand/10 px-3 py-1.5 text-xs font-bold text-brand-dark">
+              <BadgeCheck className="size-3.5" aria-hidden="true" />
+              Trusted Member
+            </span>
 
- <div className="hidden items-center gap-4 md:flex">
-          <a
-            href="/login"
-            className="text-sm font-semibold text-slate-300 transition-colors hover:text-white"
-          >
-            Sign in
-          </a>
-          <a
-            href="/signup"
-            className="text-sm font-semibold text-slate-300 transition-colors hover:text-white"
-          >
-            Sign up
-          </a>
+            <Popover>
+              <PopoverTrigger
+                render={
+                  <Avatar className="ring-2 ring-brand/40">
+                    <AvatarImage src={user?.image as string} />
+                    <AvatarFallback>{user?.name.charAt(0)}</AvatarFallback>
+                  </Avatar>
+                }
+              >
+                Open menu
+              </PopoverTrigger>
+              <PopoverContent align="end">
+                <PopoverHeader>
+                  <PopoverTitle className="max-w-40 truncate">
+                    {user?.name}
+                  </PopoverTitle>
+                  <PopoverDescription className="max-w-40 truncate">
+                    {user?.email}
+                  </PopoverDescription>
+                </PopoverHeader>
+                <div className="flex flex-col gap-2">
+                  <Link href="/joined-events" className={buttonStyles({ variant: "outline", size: "sm" })}>
+                    Joined Events
+                  </Link>
+                  <Link href="/my-create-event" className={buttonStyles({ variant: "outline", size: "sm" })}>
+                    Manage Events
+                  </Link>
+                  <Link
+                    href="/add-events"
+                    className={cn(buttonStyles({ size: "sm" }), "flex-1")}
+                  >
+                    <Plus className="size-4" aria-hidden="true" />
+                    Create an Event
+                  </Link>
+                  <button
+                    type="button"
+                    onClick={handleSignOut}
+                    className="inline-flex h-9 items-center justify-center gap-2 rounded-full bg-destructive/10 px-4 text-sm font-semibold text-destructive transition-colors hover:bg-destructive/20"
+                  >
+                    <LogOut className="size-4" aria-hidden="true" />
+                    Sign Out
+                  </button>
+                </div>
+              </PopoverContent>
+            </Popover>
+          </div>
+        ) : (
+          <div className="hidden items-center gap-3 md:flex">
+            <a
+              href="/login"
+              className="rounded-full px-4 py-2 text-sm font-semibold text-slate-600 transition-colors hover:bg-slate-100 hover:text-slate-900"
+            >
+              Sign in
+            </a>
+            <Link href="/signup" className={buttonStyles({ size: "sm" })}>
+              Sign Up
+            </Link>
+          </div>
+        )}
 
-        </div>
-        </>
-}
-
-  
-       
-       
+        <ThemeToggle/>
 
         <button
           type="button"
-          className="inline-flex size-10 items-center justify-center rounded-xl border border-white/15 text-white transition-colors hover:bg-white/10 md:hidden"
+          className="inline-flex size-10 items-center justify-center rounded-full border border-slate-200 text-slate-700 transition-colors hover:bg-slate-100 md:hidden"
           aria-expanded={menuOpen}
           aria-controls="mobile-menu"
           aria-label={menuOpen ? "Close menu" : "Open menu"}
@@ -119,37 +141,55 @@ const handleSignOut = () => {
       <div
         id="mobile-menu"
         className={cn(
-          "hidden border-t border-white/10 bg-navy/95 px-4 pb-5 pt-3 backdrop-blur-lg md:hidden",
+          "hidden border-t border-slate-200 bg-white px-4 pb-5 pt-3 md:hidden",
           menuOpen && "block"
         )}
       >
-        <nav className="flex flex-col gap-1" aria-label="Mobile navigation">
+        {user ? (
+          <div className="flex flex-col gap-2 pb-4">
+            <span className="inline-flex w-fit items-center gap-1.5 rounded-full bg-brand/10 px-3 py-1.5 text-xs font-bold text-brand-dark">
+              <BadgeCheck className="size-3.5" aria-hidden="true" />
+              Trusted Member
+            </span>
+            <Link href="/joined-events" onClick={() => setMenuOpen(false)} className="text-sm font-semibold text-slate-700">
+              Joined Events
+            </Link>
+            <Link href="/my-create-event" onClick={() => setMenuOpen(false)} className="text-sm font-semibold text-slate-700">
+              Manage Events
+            </Link>
+          </div>
+        ) : (
+          <div className="flex flex-col gap-2 pb-4">
+            <Link href="/login" onClick={() => setMenuOpen(false)} className="text-sm font-semibold text-slate-700">
+              Sign in
+            </Link>
+            <Link href="/signup" onClick={() => setMenuOpen(false)} className={cn(buttonStyles({ size: "sm" }), "w-fit")}>
+              Sign Up
+            </Link>
+          </div>
+        )}
+
+        <div className="flex flex-col gap-2 border-t border-slate-200 pt-4">
           {navLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
               onClick={() => setMenuOpen(false)}
-              className="rounded-lg px-3 py-2.5 text-base font-semibold text-slate-200 transition-colors hover:bg-white/5 hover:text-white"
+              className="text-sm font-semibold text-slate-700"
             >
               {link.label}
             </Link>
           ))}
-        </nav>
-        <div className="mt-3 flex items-center gap-3 border-t border-white/10 pt-4">
-          <a
-            href="/login"
-            className={buttonStyles({ variant: "outline", size: "md" })}
-          >
-            Sign in
-          </a>
-          <Link
-            href="/add-destination"
-            onClick={() => setMenuOpen(false)}
-            className={cn(buttonStyles({ size: "md" }), "flex-1")}
-          >
-            <Plus className="size-4" aria-hidden="true" />
-            Create an Event
-          </Link>
+          {user && (
+            <button
+              type="button"
+              onClick={handleSignOut}
+              className="inline-flex w-fit items-center gap-2 rounded-full bg-destructive/10 px-4 py-2 text-sm font-semibold text-destructive"
+            >
+              <LogOut className="size-4" aria-hidden="true" />
+              Sign Out
+            </button>
+          )}
         </div>
       </div>
     </header>

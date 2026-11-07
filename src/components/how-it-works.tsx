@@ -50,7 +50,7 @@ export function HowItWorks() {
               className="group relative flex flex-col rounded-2xl border border-slate-100 bg-white p-7 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg md:p-8"
             >
               <div className="flex items-center justify-between gap-4">
-                <span className="flex size-12 items-center justify-center rounded-2xl bg-orange-100 text-brand transition-colors group-hover:bg-brand group-hover:text-white">
+                <span className="flex size-12 items-center justify-center rounded-2xl bg-brand/10 text-brand transition-colors group-hover:bg-brand group-hover:text-white">
                   <step.icon className="size-6" aria-hidden="true" />
                 </span>
                 <span className="font-heading text-xs font-extrabold uppercase tracking-[0.2em] text-slate-300">

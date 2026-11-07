@@ -3,6 +3,9 @@ import { DM_Sans, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import ThemeProvider from "@/components/theme-provider";
 
 const dmSans = DM_Sans({
   subsets: ["latin"],
@@ -32,12 +35,17 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${dmSans.variable} ${plusJakartaSans.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
+        <ThemeProvider>
+
           <Navbar />
-       <main className="pt-20 pb-10">
-         {children}
-       </main>
-         <Footer />
-        </body>
+          <main className="pt-20 pb-10">
+            {children}
+          </main>
+          <Footer />
+          <ToastContainer />
+        </ThemeProvider>
+
+      </body>
     </html>
   );
 }
