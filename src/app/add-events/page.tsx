@@ -26,6 +26,7 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { authClient } from "@/lib/auth-client";
+import { getTokenFromClient } from "@/lib/getTokenFromClient";
 
 const eventTypes = [
   "Donation",
@@ -148,6 +149,8 @@ export default function CreateEventPage() {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+const token = await getTokenFromClient()
+
     if (!user?.email) return setErrors({ submit: "Please log in first" });
 
     const found = validate();
@@ -158,7 +161,9 @@ export default function CreateEventPage() {
     try {
       const res = await fetch("http://localhost:5000/add-destination", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json" ,
+          authorization: `Bearer ${token}`
+        },
         body: JSON.stringify({
           ...form,
           image: form.image.trim(),
@@ -166,9 +171,9 @@ export default function CreateEventPage() {
           creatorEmail: user.email,
         }),
       });
-      const data = await res.json();
+      const result = await res.json();
 
-      if (!res.ok) throw new Error(data.message || "Failed to create event");
+      if (!res.ok) throw new Error(result.message || "Failed to create event");
       setSubmitted(true);
     } catch (err) {
       setErrors({

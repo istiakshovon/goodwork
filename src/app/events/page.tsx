@@ -1,12 +1,19 @@
 import Link from 'next/link';
 import { CalendarDays, MapPin, Users } from 'lucide-react';
 import { type EventItem } from '@/lib/types';
+import { auth } from '@/lib/auth';
+import { headers } from 'next/headers';
+import { getTokenFromServer } from '@/lib/getTokenFromServer';
 
 const AllEvents = async () => {
-    const res = await fetch('http://localhost:5000/events',{
+
+const token = await getTokenFromServer()
+
+
+const res = await fetch(`http://localhost:5000/events`,{
       
       headers: {
-        authorization: 'user loged in'
+        authorization: `Bearer ${token}`,
       }
     })
     const data = await res.json()

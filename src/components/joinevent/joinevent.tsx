@@ -5,6 +5,7 @@ import { authClient } from '@/lib/auth-client';
 import { type EventItem } from '@/lib/types';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
+import { getTokenFromClient } from '@/lib/getTokenFromClient';
 
 const JoinEvent = ({ events }: { events: EventItem }) => {
 
@@ -32,10 +33,12 @@ const JoinEvent = ({ events }: { events: EventItem }) => {
                 eventName: events.title,
             }
 
+            const token = await getTokenFromClient();
             const res = await fetch('http://localhost:5000/join', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`
                 },
                 body: JSON.stringify(data),
             })

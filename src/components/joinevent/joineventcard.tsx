@@ -3,13 +3,19 @@ import { MapPin, CalendarDays, Trash2 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { type EventItem } from "@/lib/types";
+import { getTokenFromClient } from "@/lib/getTokenFromClient";
 
 const JoinEventCard = ({ event }: { event: EventItem }) => {
   const router = useRouter();
 
+
+
   const handleDelete = async () => {
+    const token = await getTokenFromClient();
     const res = await fetch(`http://localhost:5000/my-events/${event._id}`, {
       method: "DELETE",
+       headers: { "Content-Type": "application/json", 
+            Authorization: `Bearer ${token}` },
     });
     await res.json();
     router.refresh();

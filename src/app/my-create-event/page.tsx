@@ -11,6 +11,8 @@ const MyCreatedEventsPage = () => {
     const { data: session } = authClient.useSession()
     const [events, setEvents] = useState<EventItem[] | null>(null)
 
+
+    
     useEffect(() => {
         if (!session?.user?.email) return
 

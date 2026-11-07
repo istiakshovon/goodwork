@@ -9,6 +9,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { getTokenFromClient } from "@/lib/getTokenFromClient";
 
 const EVENT_TYPES = [
   "Relief Effort",
@@ -22,7 +23,7 @@ const inputClass =
   "w-full rounded-lg border border-slate-200 px-3 py-2 text-sm outline-none focus:border-brand focus:ring-2 focus:ring-brand/20";
 const labelClass = "mb-1 block text-sm font-semibold text-slate-800";
 
-const EditEvents = ({ event, onUpdated }) => {
+const EditEvents = ({ event, onUpdated }: any) => {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -39,20 +40,24 @@ const EditEvents = ({ event, onUpdated }) => {
     maxVolunteers: event?.maxVolunteers || "",
   });
 
-  const handleChange = (e) => {
+  const handleChange = (e:any) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e:any) => {
     e.preventDefault();
     setLoading(true);
 
-const {_id, ...data} = form
+const {_id, ...data} = form as any
+
+
+const token = await getTokenFromClient()
 
     try {
       const res = await fetch(`http://localhost:5000/events/${event._id}`, {
         method: "PATCH",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", 
+            Authorization: `Bearer ${token}` },
         body: JSON.stringify(data),
       });
 
@@ -62,7 +67,7 @@ const {_id, ...data} = form
       setOpen(false);
     } catch (err) {
       console.error(err);
-      alert("Event update করা যায়নি, আবার চেষ্টা করো।");
+     
     } finally {
       setLoading(false);
     }
