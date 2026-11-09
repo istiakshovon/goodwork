@@ -4,7 +4,7 @@ import { CalendarDays, MapPin, Users } from 'lucide-react';
 const EventDetailsPage = async ({ params }: PageProps<'/events/[id]'>) => {
     const { id } = await params;
 
-    const res = await fetch(`http://localhost:5000/events/${id}`)
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/events/${id}`)
     const data = await res.json()
 
 
