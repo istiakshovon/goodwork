@@ -14,7 +14,7 @@ const MyEventsPage = async () => {
 
     let data: EventItem[] = [];
     if (user) {
-        const res = await fetch(`http://localhost:5000/my-events/${user?.email}`, {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/my-events/${user?.email}`, {
             cache: "no-store",
         });
         const json = await res.json();

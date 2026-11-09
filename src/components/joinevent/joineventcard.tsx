@@ -12,7 +12,7 @@ const JoinEventCard = ({ event }: { event: EventItem }) => {
 
   const handleDelete = async () => {
     const token = await getTokenFromClient();
-    const res = await fetch(`http://localhost:5000/my-events/${event._id}`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/my-events/${event._id}`, {
       method: "DELETE",
        headers: { "Content-Type": "application/json", 
             Authorization: `Bearer ${token}` },

@@ -54,7 +54,7 @@ const {_id, ...data} = form as any
 const token = await getTokenFromClient()
 
     try {
-      const res = await fetch(`http://localhost:5000/events/${event._id}`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/event/${event._id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json", 
             Authorization: `Bearer ${token}` },

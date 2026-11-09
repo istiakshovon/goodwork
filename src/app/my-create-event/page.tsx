@@ -12,13 +12,13 @@ const MyCreatedEventsPage = () => {
     const [events, setEvents] = useState<EventItem[] | null>(null)
 
 
-    
+
     useEffect(() => {
         if (!session?.user?.email) return
 
         let cancelled = false
 
-        fetch(`http://localhost:5000/mycreated-events/${session.user.email}`)
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}/mycreated-events/${session.user.email}`)
             .then(res => res.json())
             .then(data => {
                 if (!cancelled) setEvents(Array.isArray(data) ? data : [])

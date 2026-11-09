@@ -4,18 +4,13 @@ import { type EventItem } from '@/lib/types';
 import { auth } from '@/lib/auth';
 import { headers } from 'next/headers';
 import { getTokenFromServer } from '@/lib/getTokenFromServer';
-
+export const dynamic = "force-dynamic";
 const AllEvents = async () => {
 
-const token = await getTokenFromServer()
 
 
-const res = await fetch(`http://localhost:5000/events`,{
-      
-      headers: {
-        authorization: `Bearer ${token}`,
-      }
-    })
+
+const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/events`)
     const data = await res.json()
 
     return (

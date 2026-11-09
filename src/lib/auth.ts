@@ -10,17 +10,20 @@ export const auth = betterAuth({
   database: mongodbAdapter(db, {
     client,
   }),
-   emailAndPassword: { 
-    enabled: true, 
-  }, 
-
+  emailAndPassword: {
+    enabled: true,
+  },
   plugins: [jwt()],
   session: {
     cookieCache: {
       enabled: true,
       strategy: "jwt",
-      maxAge: 7 *24 * 60 *60
-
-    }
-  }
+      maxAge: 7 * 24 * 60 * 60,
+    },
+  }, 
+  baseURL: process.env.BETTER_AUTH_URL,
+  trustedOrigins: [
+    "http://localhost:3000",
+    "https://goodwork-nine.vercel.app",
+  ],
 });
