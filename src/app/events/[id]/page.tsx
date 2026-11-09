@@ -23,7 +23,16 @@ const EventDetailsPage = async ({ params }: PageProps<'/events/[id]'>) => {
                 <span className="absolute left-5 top-5 rounded-full bg-white/95 px-3 py-1.5 text-xs font-bold text-slate-800 shadow-sm backdrop-blur">
                     ( {data.type} )
                 </span>
-                
+                <div className="absolute inset-x-0 bottom-0 flex flex-wrap gap-x-6 gap-y-2 p-5 text-sm font-semibold text-white sm:p-7">
+                    <span className="inline-flex items-center gap-1.5">
+                        <MapPin className="size-4 text-brand-soft" aria-hidden="true" />
+                        {data.location}
+                    </span>
+                    <span className="inline-flex items-center gap-1.5">
+                        <CalendarDays className="size-4 text-brand-soft" aria-hidden="true" />
+                        {data.date}
+                    </span>
+                </div>
             </div>
 
             <div className="mt-8 grid gap-8 lg:grid-cols-[1fr_360px]">
